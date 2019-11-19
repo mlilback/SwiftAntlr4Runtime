@@ -4,6 +4,8 @@
 /// can be found in the LICENSE.txt file in the project root.
 /// 
 
+import Foundation
+
 extension String {
     func lastIndex(of target: String) -> String.Index? {
         if target.isEmpty {

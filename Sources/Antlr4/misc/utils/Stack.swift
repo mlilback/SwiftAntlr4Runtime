@@ -10,6 +10,8 @@
 //  Created by janyou on 15/9/8.
 //
 
+import Foundation
+
 public struct Stack<T> {
     var items = [T]()
     public mutating func push(_ item: T) {

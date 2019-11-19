@@ -6,6 +6,8 @@
 /// 
 /// 
 
+import Foundation
+
 ///
 /// This field maps from the serialized ATN string to the deserialized _org.antlr.v4.runtime.atn.ATN_ with
 /// bypass alternatives.
@@ -939,7 +941,7 @@ open class Parser: Recognizer<ParserATNSimulator> {
 
     public func getRuleInvocationStack(_ p: RuleContext?) -> [String] {
         var p = p
-		let ruleNames = getRuleNames()
+        let ruleNames = getRuleNames()
         var stack = [String]()
         while let pWrap = p {
             // compute what follows who invoked us

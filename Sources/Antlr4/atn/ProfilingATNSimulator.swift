@@ -9,7 +9,7 @@
 /// -  4.3
 /// 
 
-import QuartzCore
+import Foundation
 
 public class ProfilingATNSimulator: ParserATNSimulator {
     private(set) var decisions: [DecisionInfo]
@@ -53,20 +53,17 @@ public class ProfilingATNSimulator: ParserATNSimulator {
 
     override
     public func adaptivePredict(_ input: TokenStream, _ decision: Int,_ outerContext: ParserRuleContext?) throws -> Int {
-        defer {
-            self.currentDecision = -1
-        }
-
+        var outerContext = outerContext
         self._sllStopIndex = -1
         self._llStopIndex = -1
         self.currentDecision = decision
-        let start = CACurrentMediaTime() // expensive but useful info
-        let alt = try super.adaptivePredict(input, decision, outerContext)
-        let stop = CACurrentMediaTime()
-        decisions[decision].timeInPrediction += Int64((stop - start) * 1_000_000)
+        var start: Int64 = Int64(Date().timeIntervalSince1970) //System.nanoTime(); // expensive but useful info
+        var alt: Int = try  super.adaptivePredict(input, decision, outerContext)
+        var stop: Int64 = Int64(Date().timeIntervalSince1970)  //System.nanoTime();
+        decisions[decision].timeInPrediction += (stop - start)
         decisions[decision].invocations += 1
 
-        let SLL_k = Int64(_sllStopIndex - _startIndex + 1)
+        var SLL_k: Int64 = Int64(_sllStopIndex - _startIndex + 1)
         decisions[decision].SLL_TotalLook += SLL_k
         decisions[decision].SLL_MinLook = decisions[decision].SLL_MinLook == 0 ? SLL_k : min(decisions[decision].SLL_MinLook, SLL_k)
         if SLL_k > decisions[decision].SLL_MaxLook {
@@ -76,7 +73,7 @@ public class ProfilingATNSimulator: ParserATNSimulator {
         }
 
         if _llStopIndex >= 0 {
-            let LL_k = Int64(_llStopIndex - _startIndex + 1)
+            var LL_k: Int64 = Int64(_llStopIndex - _startIndex + 1)
             decisions[decision].LL_TotalLook += LL_k
             decisions[decision].LL_MinLook = decisions[decision].LL_MinLook == 0 ? LL_k : min(decisions[decision].LL_MinLook, LL_k)
             if LL_k > decisions[decision].LL_MaxLook {
@@ -86,7 +83,12 @@ public class ProfilingATNSimulator: ParserATNSimulator {
             }
         }
 
+        defer {
+            self.currentDecision = -1
+        }
         return alt
+
+
     }
 
     override
@@ -187,7 +189,7 @@ public class ProfilingATNSimulator: ParserATNSimulator {
     override
     internal func reportAmbiguity(_ dfa: DFA, _ D: DFAState, _ startIndex: Int, _ stopIndex: Int, _ exact: Bool,
                                   _ ambigAlts: BitSet?, _ configs: ATNConfigSet) {
-        let prediction: Int
+        var prediction: Int
         if let ambigAlts = ambigAlts {
             prediction = ambigAlts.firstSetBit()
         } else {

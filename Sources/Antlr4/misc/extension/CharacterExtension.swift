@@ -11,6 +11,8 @@
 //  Created by janyou on 15/9/4.
 //
 
+import Foundation
+
 extension Character {
 
     //"1" -> 1 "2"  -> 2

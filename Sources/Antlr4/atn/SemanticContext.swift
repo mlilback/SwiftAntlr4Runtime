@@ -15,6 +15,8 @@
 /// _org.antlr.v4.runtime.atn.SemanticContext_ within the scope of this outer class.
 /// 
 
+import Foundation
+
 public class SemanticContext: Hashable, CustomStringConvertible {
     /// 
     /// The default _org.antlr.v4.runtime.atn.SemanticContext_, which is semantically equivalent to

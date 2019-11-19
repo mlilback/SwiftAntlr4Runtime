@@ -6,6 +6,8 @@
 /// when you construct the object.
 /// 
 
+import Foundation
+
 public class ANTLRFileStream: ANTLRInputStream {
     private let fileName: String
 

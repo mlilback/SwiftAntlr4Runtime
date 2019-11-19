@@ -11,6 +11,7 @@
 //  Created by janyou on 15/9/14.
 //
 
+import Foundation
 //public struct DefaultATNConfig: ATNConfig {
 //    public var state: ATNState
 //    public var alt: Int
